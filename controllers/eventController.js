@@ -7,7 +7,8 @@ exports.createEvent = async (req, res) => {
         const newEvent = new Event({
             event,
             items,
-            tax
+            tax,
+            userId: req.userId
         });
 
         await newEvent.save()
@@ -28,6 +29,10 @@ exports.getEvent = async (req, res) => {
             return res.status(404).json({ message: 'Event not found' });
         }
 
+        if (event.userId.toString() !== req.userId){
+            return res.status(403).json({ message: 'Access Denied' });
+        }
+
         const totalWithTax = event.calculateTotalWithTax();
 
         res.status(200).json({
@@ -41,3 +46,13 @@ exports.getEvent = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.getUserEvents = async (req, res) => {
+    try{ 
+        const events = await Event.find({ userId: req.userId });
+        return res.status(200).json({ events });
+    }catch (error){
+        console.log(error);
+        return res.status(500).json({ message: 'Server error', emsg: error });
+    }
+}

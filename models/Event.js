@@ -28,6 +28,11 @@ const eventSchema = new mongoose.Schema({
     tax: {
         type: Number,
         default: 0.0
+    },
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 
@@ -38,4 +43,4 @@ eventSchema.methods.calculateTotalWithTax = function() {
     return totalWithTax;
 };
 
-module.exports = mongoose.model('Event', eventSchema);
+module.exports = mongoose.model('Event', eventSchema)
