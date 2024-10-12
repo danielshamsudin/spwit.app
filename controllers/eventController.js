@@ -58,11 +58,22 @@ exports.getUserEvents = async (req, res) => {
 };
 
 exports.removeEventsFromList = async (req, res) => {
-    // userId -> req.userId
-    // event -> req.event
     try {
         const removeItem = await Event.findByIdAndDelete(req.params.id);
         if (removeItem) return res.status(200).json({message: 'Event deleted.'});
+    }catch (error) {
+        console.log(error)
+        return res.status(500).json({message: 'Event not found', emsg: error})
+    }
+}
+
+exports.attachOwnerToFood = async (req, res) => {
+    const { itemId, owner } = req.body;
+    try {
+        const event = await Event.findById(req.params.id);
+        event.items.id(itemId).owner = owner;
+        await event.save();
+        return res.status(200).json({message: "Event modified."});
     }catch (error) {
         console.log(error)
         return res.status(500).json({message: 'Event not found', emsg: error})
