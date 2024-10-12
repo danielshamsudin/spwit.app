@@ -55,4 +55,16 @@ exports.getUserEvents = async (req, res) => {
         console.log(error);
         return res.status(500).json({ message: 'Server error', emsg: error });
     }
+};
+
+exports.removeEventsFromList = async (req, res) => {
+    // userId -> req.userId
+    // event -> req.event
+    try {
+        const removeItem = await Event.findByIdAndDelete(req.params.id);
+        if (removeItem) return res.status(200).json({message: 'Event deleted.'});
+    }catch (error) {
+        console.log(error)
+        return res.status(500).json({message: 'Event not found', emsg: error})
+    }
 }
