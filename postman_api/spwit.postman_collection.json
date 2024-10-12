@@ -202,7 +202,7 @@
 		{
 			"name": "remove name from list",
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Authorization",
@@ -210,6 +210,15 @@
 						"type": "text"
 					}
 				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Test ppl\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:3000/api/users/names",
 					"protocol": "http",
@@ -239,7 +248,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"event\": \"Lunch with the boys\",\r\n  \"items\": [\r\n    {\"name\": \"spaghetti\", \"price\": 20.4, \"qty\": 2},\r\n    {\"name\": \"half chicken\", \"price\": 20.4},\r\n    {\"name\": \"poached egg\", \"price\": 12}\r\n  ],\r\n  \"tax\": 0.06\r\n}\r\n",
+					"raw": "{\r\n  \"event\": \"test add event\",\r\n  \"items\": [\r\n    {\"name\": \"spaghetti\", \"price\": 20.4, \"qty\": 2},\r\n    {\"name\": \"half chicken\", \"price\": 20.4},\r\n    {\"name\": \"poached egg\", \"price\": 12},\r\n    {\"name\": \"teh o ais\", \"price\": 1}\r\n  ],\r\n  \"tax\": 0.06\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -263,7 +272,7 @@
 			"response": []
 		},
 		{
-			"name": "view makan event",
+			"name": "view user specific makan events",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -274,7 +283,41 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:3000/api/events/event/6700e2edecd9f0133790a3f1",
+					"raw": "http://localhost:3000/api/events/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"events",
+						"events"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user specific makan events",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/events/event/670acdb68e80aef6c99a9b94",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -284,7 +327,51 @@
 						"api",
 						"events",
 						"event",
-						"6700e2edecd9f0133790a3f1"
+						"670acdb68e80aef6c99a9b94"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add food owner from receipt",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemId\": \"670ae797404544d6094d7cf9\",\r\n    \"owner\": [\"daniel\", \"shafiq\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/events/event/670ae797404544d6094d7cf8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"events",
+						"event",
+						"670ae797404544d6094d7cf8"
 					],
 					"query": [
 						{
