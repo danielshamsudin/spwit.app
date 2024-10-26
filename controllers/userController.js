@@ -15,19 +15,24 @@ exports.getAllUsers = async (req, res) => {
 }
 
 exports.registerUser = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, phoneNumber } = req.body;
+
+    console.log('raw:', req.body);
+    console.log('data: ', name, email, password, phoneNumber);
 
     try {
         const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        const existingPhone = await User.findOne({ phoneNumber });
+        if (existingUser || existingPhone) {
             return res.status(400).json({ message: 'User already exists' });
         }
 
-        const user = new User({ name, email, password });
+        const user = new User({ name, email, password, phoneNumber });
         await user.save();
         const token = generateToken(user._id);
         res.status(201).json({ token });
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Server error' });
     }
 };
